@@ -8,6 +8,9 @@ defmodule ShopifyWhatsapp.Message do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
+
   @type t :: %__MODULE__{}
 
   schema "messages" do
@@ -87,9 +90,7 @@ defmodule ShopifyWhatsapp.Message do
   Increments the retry count.
   """
   def increment_retry(message) do
-    message
-    |> change()
-    |> update_change(:retry_count, &(&1 + 1))
+    change(message, retry_count: message.retry_count + 1)
   end
 
   # Truncates error reason to fit in database column

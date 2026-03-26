@@ -27,6 +27,16 @@ config :shopify_whatsapp, ShopifyWhatsapp.Mailer, adapter: Swoosh.Adapters.Test
 config :swoosh, :api_client, false
 
 # Print only warnings and errors during test
+# Shopify API credentials for install controller tests
+config :shopify_whatsapp, :shopify_api_key, "test_api_key"
+config :shopify_whatsapp, :shopify_api_secret, "test_api_secret"
+config :shopify_whatsapp, :shopify_webhook_secret, "test_webhook_secret"
+
+# WhatsApp API config for tests
+config :shopify_whatsapp, :whatsapp_base_url, "https://graph.facebook.com/v19.0"
+config :shopify_whatsapp, :whatsapp_phone_id, "test_phone_id"
+config :shopify_whatsapp, :whatsapp_access_token, "test_whatsapp_token"
+
 config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation

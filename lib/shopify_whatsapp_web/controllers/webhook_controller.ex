@@ -23,7 +23,7 @@ defmodule ShopifyWhatsappWeb.WebhookController do
     ShopifyWhatsapp.Telemetry.log_webhook_received(
       shop_domain,
       "orders/create",
-      get_in(params, ["id", "order_id"])
+      params["id"]
     )
 
     # Extract order data
@@ -60,7 +60,7 @@ defmodule ShopifyWhatsappWeb.WebhookController do
     ShopifyWhatsapp.Telemetry.log_webhook_received(
       shop_domain,
       "orders_updated",
-      get_in(params, ["id", "order_id"])
+      params["id"]
     )
 
     case extract_order_data(params) do
@@ -145,14 +145,14 @@ defmodule ShopifyWhatsappWeb.WebhookController do
       {:error, :invalid_order}
     else
       order_data = %{
-        order_id: numeric_id,
-        order_gid: order_id,
-        order_number: Map.get(params, "name"),
-        customer_phone: normalize_phone(customer_phone),
-        customer_name: get_in(params, ["customer", "first_name"]),
-        financial_status: Map.get(params, "financial_status"),
-        fulfillment_status: Map.get(params, "fulfillment_status"),
-        tags: Map.get(params, "tags", "")
+        "order_id" => numeric_id,
+        "order_gid" => order_id,
+        "order_number" => Map.get(params, "name"),
+        "customer_phone" => normalize_phone(customer_phone),
+        "customer_name" => get_in(params, ["customer", "first_name"]),
+        "financial_status" => Map.get(params, "financial_status"),
+        "fulfillment_status" => Map.get(params, "fulfillment_status"),
+        "tags" => Map.get(params, "tags", "")
       }
 
       {:ok, order_data}

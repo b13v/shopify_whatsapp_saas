@@ -61,7 +61,8 @@ defmodule ShopifyWhatsapp.MixProject do
       # Stripe for payment links
       {:stripity_stripe, "~> 2.0"},
       # HTTP client for Shopify/LLM APIs
-      {:req, "~> 0.4"}
+      {:req, "~> 0.4"},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 

@@ -48,8 +48,17 @@ defmodule ShopifyWhatsappWeb.ShopifyWebhookPlug do
   # Private helpers
 
   defp verify_hmac(conn, provided_hmac) do
-    # Read the raw body
-    {:ok, body, _conn} = read_body(conn)
+    # Read the cached raw body (cached by CacheBodyReader before Plug.Parsers)
+    body = conn.assigns[:raw_body] || ""
+
+    if body == "" do
+      false
+    else
+      verify_hmac_with_body(body, provided_hmac)
+    end
+  end
+
+  defp verify_hmac_with_body(body, provided_hmac) do
 
     # Calculate expected HMAC
     secret = webhook_secret()
