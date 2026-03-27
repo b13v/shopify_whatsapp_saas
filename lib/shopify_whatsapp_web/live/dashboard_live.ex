@@ -1,44 +1,29 @@
 defmodule ShopifyWhatsappWeb.DashboardLive do
   use ShopifyWhatsappWeb, :live_view
 
+  on_mount {ShopifyWhatsappWeb.LiveAuth, :default}
+
   require Logger
 
   alias ShopifyWhatsapp.Dashboard
 
   @impl true
   def mount(_params, _session, socket) do
-    # For MVP, we'll require shop query param
-    # In production, use proper session-based auth
-    {:ok, assign(socket, %{shop: nil, stats: nil, messages: [], loading: true})}
-  end
-
-  @impl true
-  def handle_params(%{"shop" => shop_domain}, _uri, socket) do
-    case Dashboard.get_shop_by_domain(shop_domain) do
+    case socket.assigns[:current_shop] do
       nil ->
-        # Shop not found
-        {:noreply,
-         socket
-         |> put_flash(:error, "Shop not installed. Please install the app first.")
-         |> redirect(to: "/")}
+        {:ok, assign(socket, %{shop: nil, stats: nil, messages: [], loading: true})}
 
       shop ->
-        # Load dashboard data
         stats = Dashboard.message_stats(shop.id)
         messages = Dashboard.recent_messages(shop.id, limit: 20)
 
-        {:noreply,
+        {:ok,
          socket
          |> assign(:shop, shop)
          |> assign(:stats, stats)
          |> assign(:messages, messages)
          |> assign(:loading, false)}
     end
-  end
-
-  def handle_params(_params, _uri, socket) do
-    # No shop param - redirect to home
-    {:noreply, redirect(socket, to: "/")}
   end
 
   @impl true
@@ -58,27 +43,7 @@ defmodule ShopifyWhatsappWeb.DashboardLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-gray-50">
-      <!-- Header -->
-      <header class="bg-white shadow">
-        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
-          <div class="flex justify-between items-center">
-            <div>
-              <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p class="mt-1 text-sm text-gray-500"><%= @shop && @shop.shop_domain %></p>
-            </div>
-            <%= if @shop do %>
-              <button
-                phx-click="refresh"
-                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              >
-                Refresh
-              </button>
-            <% end %>
-          </div>
-        </div>
-      </header>
-
+    <.dashboard_layout current_shop={@shop} active_tab="dashboard">
       <%= if @loading do %>
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
           <p class="text-center text-gray-500">Loading...</p>
@@ -278,7 +243,7 @@ defmodule ShopifyWhatsappWeb.DashboardLive do
           </div>
         </div>
       <% end %>
-    </div>
+    </.dashboard_layout>
     """
   end
 

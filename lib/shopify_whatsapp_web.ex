@@ -85,6 +85,7 @@ defmodule ShopifyWhatsappWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import ShopifyWhatsappWeb.CoreComponents
+      import ShopifyWhatsappWeb.DashboardLayout
       import ShopifyWhatsappWeb.Gettext
 
       # Shortcut for generating JS commands

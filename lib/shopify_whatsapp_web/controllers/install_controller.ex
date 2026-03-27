@@ -48,8 +48,11 @@ defmodule ShopifyWhatsappWeb.InstallController do
               # Register webhooks for this shop
               register_webhooks(shop, access_token)
 
-              # Redirect to the app dashboard
-              redirect(conn, to: "/dashboard?shop=#{normalized_shop}")
+              # Store shop in session and redirect to dashboard
+              conn
+              |> put_session("shop_domain", normalized_shop)
+              |> put_flash(:info, "App installed successfully!")
+              |> redirect(to: "/dashboard")
 
             {:error, changeset} ->
               Logger.error("Failed to upsert shop: #{inspect(changeset.errors)}")

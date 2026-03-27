@@ -55,6 +55,15 @@ defmodule ShopifyWhatsapp.Shop do
   end
 
   @doc """
+  Changeset for updating shop settings (WhatsApp phone number).
+  Only casts whatsapp_phone to prevent token overwrites.
+  """
+  def settings_changeset(shop, attrs) do
+    shop
+    |> cast(attrs, [:whatsapp_phone])
+  end
+
+  @doc """
   Changeset for storing webhook IDs.
   """
   def webhooks_changeset(shop, attrs) do
