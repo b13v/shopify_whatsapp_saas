@@ -51,6 +51,7 @@ defmodule ShopifyWhatsappWeb.InstallController do
               # Store shop in session and redirect to dashboard
               conn
               |> put_session("shop_domain", normalized_shop)
+              |> put_session("last_auth_at", DateTime.utc_now() |> DateTime.to_iso8601())
               |> put_flash(:info, "App installed successfully!")
               |> redirect(to: "/dashboard")
 

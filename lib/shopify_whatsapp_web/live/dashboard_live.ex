@@ -43,10 +43,34 @@ defmodule ShopifyWhatsappWeb.DashboardLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <.dashboard_layout current_shop={@shop} active_tab="dashboard">
+    <.dashboard_layout current_shop={@shop} active_tab="dashboard" flash={@flash}>
       <%= if @loading do %>
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-          <p class="text-center text-gray-500">Loading...</p>
+          <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <%= for _ <- 1..4 do %>
+              <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                  <div class="flex items-center">
+                    <div class="h-6 w-6 bg-gray-200 rounded animate-pulse"></div>
+                    <div class="ml-5 w-0 flex-1">
+                      <div class="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                      <div class="mt-2 h-6 w-12 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="mt-8 bg-white shadow rounded-lg">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+              <div class="h-5 w-36 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+            <div class="p-6 space-y-3">
+              <%= for _ <- 1..5 do %>
+                <div class="h-4 bg-gray-100 rounded animate-pulse"></div>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% else %>
         <!-- Stats Cards -->
@@ -232,8 +256,23 @@ defmodule ShopifyWhatsappWeb.DashboardLive do
 
                   <%= if @messages == [] do %>
                     <tr>
-                      <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                        No messages yet. Messages will appear here when orders are created.
+                      <td colspan="5" class="px-6 py-12 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
+                        <p class="mt-4 text-sm font-medium text-gray-500">No messages yet</p>
+                        <p class="mt-1 text-sm text-gray-400">
+                          Notifications will appear here when customers place orders on your store.
+                        </p>
+                        <.link
+                          navigate={~p"/dashboard/settings"}
+                          class="mt-4 inline-flex items-center text-sm text-green-600 hover:text-green-700 font-medium"
+                        >
+                          Configure your WhatsApp number
+                          <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </.link>
                       </td>
                     </tr>
                   <% end %>

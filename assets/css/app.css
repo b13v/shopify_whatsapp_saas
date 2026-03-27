@@ -2,4 +2,17 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/*
+ * Color System
+ * Primary: WhatsApp green (#25D366) used for active states, CTAs, and brand accents.
+ * Neutral: gray-900/gray-50 range for text, backgrounds, and chrome.
+ * Semantic: green for success, red for error, yellow for warning, blue for info.
+ */
+:root {
+  --color-whatsapp: #25D366;
+  --color-whatsapp-dark: #128C7E;
+  --color-whatsapp-light: #DCF8C6;
+  --color-whatsapp-bg: #ECE5DD;
+}
+
 /* This file is for your main application CSS */

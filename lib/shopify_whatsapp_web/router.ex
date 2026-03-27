@@ -12,7 +12,6 @@ defmodule ShopifyWhatsappWeb.Router do
 
   pipeline :authenticated do
     plug :browser
-    plug ShopifyWhatsappWeb.AuthPlug
   end
 
   pipeline :api do
