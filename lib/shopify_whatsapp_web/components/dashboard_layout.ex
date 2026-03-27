@@ -70,7 +70,8 @@ defmodule ShopifyWhatsappWeb.DashboardLayout do
       <%= if msg = Phoenix.Flash.get(@flash, :info) do %>
         <div
           id="flash-info"
-          phx-click={JS.push("lv:clear-flash", value: %{key: :info}) |> JS.hide("#flash-info")}
+          phx-click={JS.push("lv:clear-flash", value: %{key: :info})}
+          data-clear
           role="alert"
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4"
         >
@@ -90,7 +91,7 @@ defmodule ShopifyWhatsappWeb.DashboardLayout do
       <%= if msg = Phoenix.Flash.get(@flash, :error) do %>
         <div
           id="flash-error"
-          phx-click={JS.push("lv:clear-flash", value: %{key: :error}) |> JS.hide("#flash-error")}
+          phx-click={JS.push("lv:clear-flash", value: %{key: :error})}
           role="alert"
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4"
         >

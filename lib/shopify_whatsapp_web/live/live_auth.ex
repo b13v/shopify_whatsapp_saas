@@ -34,7 +34,7 @@ defmodule ShopifyWhatsappWeb.LiveAuth do
       nil -> true
       ts when is_binary(ts) ->
         case DateTime.from_iso8601(ts) do
-          {:ok, last} ->
+          {:ok, last, _offset} ->
             hours_elapsed = DateTime.diff(DateTime.utc_now(), last, :hour)
             hours_elapsed < ttl_hours
 
