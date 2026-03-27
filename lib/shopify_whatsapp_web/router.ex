@@ -47,6 +47,7 @@ defmodule ShopifyWhatsappWeb.Router do
     scope "/dev" do
       pipe_through :browser
 
+      get "/login", ShopifyWhatsappWeb.DevLoginController, :index
       live_dashboard "/dashboard", metrics: ShopifyWhatsappWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
