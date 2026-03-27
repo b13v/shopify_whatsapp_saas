@@ -10,6 +10,7 @@ defmodule ShopifyWhatsapp.Application do
     children = [
       ShopifyWhatsappWeb.Telemetry,
       ShopifyWhatsapp.Repo,
+      ShopifyWhatsapp.Vault,
       {DNSCluster, query: Application.get_env(:shopify_whatsapp, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ShopifyWhatsapp.PubSub},
       # Start the Finch HTTP client for sending emails
